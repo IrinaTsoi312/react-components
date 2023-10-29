@@ -33,5 +33,8 @@ module.exports = {
   rules: {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
+    "react/prefer-stateless-function": "off",
+    "react/destructuring-assignment": "off",
+    "react/static-property-placement": "off",
   },
 };
