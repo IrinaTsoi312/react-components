@@ -36,5 +36,7 @@ module.exports = {
     "react/prefer-stateless-function": "off",
     "react/destructuring-assignment": "off",
     "react/static-property-placement": "off",
+    "class-methods-use-this": "off",
+    "react/no-array-index-key": "off",
   },
 };
