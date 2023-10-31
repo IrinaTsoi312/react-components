@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface IFilmAllData {
+export interface IFilm {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -17,16 +17,24 @@ export interface IFilmAllData {
   url: string;
 }
 
+export interface IFilmList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: IFilm[];
+}
+
 export interface IValueState {
   inputValue: string;
+  showResults: boolean;
 }
 
 export interface ISearchResultsState {
-  filmData: IFilmData | null;
+  filmData: IFilmList | null;
 }
 
 export interface ISearchResultsProps {
-  films: IFilmData[];
+  films: IFilmList[];
 }
 
 export interface IFilmData {

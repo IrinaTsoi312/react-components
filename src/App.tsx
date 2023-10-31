@@ -9,21 +9,23 @@ export default class App extends Component<object, IValueState> {
   constructor(props: object) {
     super(props);
     this.state = {
-      inputValue: "",
+      inputValue: localStorage.getItem("searchValue") || "",
+      showResults: false,
     };
   }
 
-  handleInputChange = (event: FormEvent) => {
-    const target = event.target as HTMLInputElement;
-    const targetValue: string = target.value;
+  handleInputChange = (event: FormEvent<HTMLInputElement>) => {
+    const targetValue: string = event.currentTarget.value.trim();
     this.setState({ inputValue: targetValue });
   };
 
-  handleFormSubmit = () => {
+  handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
     const inputValue = this.state.inputValue.trim();
 
     if (inputValue !== "") {
       localStorage.setItem("searchValue", inputValue);
+      this.setState({ showResults: true });
     }
   };
 
@@ -41,7 +43,7 @@ export default class App extends Component<object, IValueState> {
               </p>
             </div>
             <div className="search-panel">
-              <div className="search-form">
+              <form onSubmit={this.handleFormSubmit} className="search-form">
                 <input
                   type="text"
                   name="search"
@@ -50,17 +52,13 @@ export default class App extends Component<object, IValueState> {
                   value={this.state.inputValue}
                   onChange={this.handleInputChange}
                 />
-                <button
-                  id="btnSearch"
-                  type="submit"
-                  onClick={this.handleFormSubmit}
-                >
+                <button id="btnSearch" type="submit">
                   Search
                 </button>
-              </div>
+              </form>
             </div>
           </header>
-          <SearchResults />
+          {this.state.showResults && <SearchResults />}
         </main>
       </ErrorBoundary>
     );
