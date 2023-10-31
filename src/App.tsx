@@ -53,6 +53,10 @@ export default class App extends Component<object, IValueState> {
     }
   };
 
+  throwError = () => {
+    throw new Error("Intentional error thrown by ErrorThrower");
+  };
+
   render() {
     const filmsToShow = this.state.filteredData || this.state.filmData;
     return (
@@ -82,6 +86,9 @@ export default class App extends Component<object, IValueState> {
                 </button>
               </form>
             </div>
+            <button type="button" onClick={this.throwError}>
+              Click to Throw Error into console
+            </button>
           </header>
           {this.state.showResults && <SearchResults filmData={filmsToShow} />}
         </main>

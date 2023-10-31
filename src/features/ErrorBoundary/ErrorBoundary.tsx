@@ -2,7 +2,6 @@ import { Component } from "react";
 import {
   IErrorBoundaryProps,
   IErrorBoundaryState,
-  ErrorInfo,
 } from "../../shared/interfaces";
 
 export default class ErrorBoundary extends Component<
@@ -18,8 +17,9 @@ export default class ErrorBoundary extends Component<
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    throw new Error(`Error caught by ErrorBoundary: ${error} ${info}`);
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    this.setState({ hasError: true });
+    throw new Error(`${error}, ${info}`);
   }
 
   render() {
