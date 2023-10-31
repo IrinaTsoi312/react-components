@@ -2,7 +2,7 @@ import { Component, FormEvent } from "react";
 import "./App.css";
 import Logo from "./assets/logo.svg";
 import SearchResults from "./features/search-result/SearchResult";
-import { IValueState } from "./shared/interfaces";
+import { IValueState, IFilmList } from "./shared/interfaces";
 import ErrorBoundary from "./features/ErrorBoundary/ErrorBoundary";
 
 export default class App extends Component<object, IValueState> {
@@ -11,7 +11,20 @@ export default class App extends Component<object, IValueState> {
     this.state = {
       inputValue: localStorage.getItem("searchValue") || "",
       showResults: false,
+      filmData: null,
+      filteredData: null,
     };
+  }
+
+  componentDidMount() {
+    fetch("https://swapi.dev/api/films/")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ showResults: true, filmData: data });
+      })
+      .catch((error) => {
+        throw new Error(`Error fetching data: ${error}`);
+      });
   }
 
   handleInputChange = (event: FormEvent<HTMLInputElement>) => {
@@ -25,11 +38,23 @@ export default class App extends Component<object, IValueState> {
 
     if (inputValue !== "") {
       localStorage.setItem("searchValue", inputValue);
-      this.setState({ showResults: true });
+      this.setState((prevState) => {
+        if (prevState.filmData) {
+          const filteredData: IFilmList = {
+            ...prevState.filmData,
+            results: prevState.filmData.results.filter((film) =>
+              film.title.toLowerCase().includes(inputValue.toLowerCase())
+            ),
+          };
+          return { showResults: true, filteredData };
+        }
+        return null;
+      });
     }
   };
 
   render() {
+    const filmsToShow = this.state.filteredData || this.state.filmData;
     return (
       <ErrorBoundary>
         <main>
@@ -58,7 +83,7 @@ export default class App extends Component<object, IValueState> {
               </form>
             </div>
           </header>
-          {this.state.showResults && <SearchResults />}
+          {this.state.showResults && <SearchResults filmData={filmsToShow} />}
         </main>
       </ErrorBoundary>
     );

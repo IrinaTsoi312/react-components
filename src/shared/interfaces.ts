@@ -27,6 +27,8 @@ export interface IFilmList {
 export interface IValueState {
   inputValue: string;
   showResults: boolean;
+  filmData: IFilmList | null;
+  filteredData: IFilmList | null;
 }
 
 export interface ISearchResultsState {
@@ -51,8 +53,4 @@ export interface IErrorBoundaryProps {
 
 export interface IErrorBoundaryState {
   hasError: boolean;
-}
-
-export interface ErrorInfo {
-  componentStack: string;
 }

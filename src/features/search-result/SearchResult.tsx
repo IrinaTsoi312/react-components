@@ -1,31 +1,18 @@
 import { Component } from "react";
 import "./SearchResult.css";
-import { ISearchResultsState, IFilm } from "../../shared/interfaces";
+import { ISearchResultsState, IFilmList } from "../../shared/interfaces";
+import Card from "../card/Card";
+
+interface SearchResultsProps {
+  filmData: IFilmList | null;
+}
 
 export default class SearchResults extends Component<
-  object,
+  SearchResultsProps,
   ISearchResultsState
 > {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      filmData: null,
-    };
-  }
-
-  componentDidMount() {
-    fetch("https://swapi.dev/api/films/")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ filmData: data });
-      })
-      .catch((error) => {
-        throw new Error(`Error fetching data: ${error}`);
-      });
-  }
-
   render() {
-    const { filmData } = this.state;
+    const { filmData } = this.props;
 
     if (!filmData) {
       return <div>Loading...</div>;
@@ -33,32 +20,16 @@ export default class SearchResults extends Component<
 
     return (
       <section className="search-result-block">
-        {filmData.results.map((film: IFilm, index: number) => {
-          return (
-            <div className="film" key={index}>
-              <p className="filmName">
-                <span className="title">Title: </span>
-                {film.title}
-              </p>
-              <p className="film-release">
-                <span className="title">Release Date: </span>
-                {film.release_date}
-              </p>
-              <p className="film-director">
-                <span className="title">Director: </span>
-                {film.director}
-              </p>
-              <p className="film-producers">
-                <span className="title">Producer: </span>
-                {film.producer}
-              </p>
-              <p className="film-description">
-                <span className="title">Description: </span>
-                {film.opening_crawl}
-              </p>
-            </div>
-          );
-        })}
+        {filmData.results.map((film, index) => (
+          <Card
+            key={index}
+            name={film.title}
+            date={film.release_date}
+            director={film.director}
+            producer={film.producer}
+            description={film.opening_crawl}
+          />
+        ))}
       </section>
     );
   }
