@@ -1,7 +1,7 @@
-import { Component } from "react";
-import "./SearchResult.css";
-import { ISearchResultsState, IFilmList } from "../../shared/interfaces";
-import Card from "../card/Card";
+import { Component } from 'react';
+import './SearchResult.css';
+import { ISearchResultsState, IFilmList } from '../../shared/interfaces';
+import Card from '../card/Card';
 
 interface SearchResultsProps {
   filmData: IFilmList | null;

@@ -1,26 +1,27 @@
-import { Component, FormEvent } from "react";
-import "./App.css";
-import Logo from "./assets/logo.svg";
-import SearchResults from "./features/search-result/SearchResult";
-import { IValueState, IFilmList } from "./shared/interfaces";
-import ErrorBoundary from "./features/ErrorBoundary/ErrorBoundary";
+import { Component, FormEvent } from 'react';
+import './App.css';
+import Logo from './assets/logo.svg';
+import SearchResults from './features/search-result/SearchResult';
+import { IValueState, IFilmList } from './shared/interfaces';
+import ErrorBoundary from './features/ErrorBoundary/ErrorBoundary';
 
 export default class App extends Component<object, IValueState> {
   constructor(props: object) {
     super(props);
     this.state = {
-      inputValue: localStorage.getItem("searchValue") || "",
+      inputValue: localStorage.getItem('searchValue') || '',
       showResults: false,
       filmData: null,
       filteredData: null,
+      loading: true,
     };
   }
 
   componentDidMount() {
-    fetch("https://swapi.dev/api/films/")
+    fetch('https://swapi.dev/api/films/')
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ showResults: true, filmData: data });
+        this.setState({ showResults: true, filmData: data, loading: false });
       })
       .catch((error) => {
         throw new Error(`Error fetching data: ${error}`);
@@ -36,8 +37,8 @@ export default class App extends Component<object, IValueState> {
     event.preventDefault();
     const inputValue = this.state.inputValue.trim();
 
-    if (inputValue !== "") {
-      localStorage.setItem("searchValue", inputValue);
+    if (inputValue !== '') {
+      localStorage.setItem('searchValue', inputValue);
       this.setState((prevState) => {
         if (prevState.filmData) {
           const filteredData: IFilmList = {
@@ -54,7 +55,7 @@ export default class App extends Component<object, IValueState> {
   };
 
   throwError = () => {
-    throw new Error("Intentional error thrown by ErrorThrower");
+    throw new Error('Intentional error thrown by ErrorThrower');
   };
 
   render() {
@@ -90,7 +91,11 @@ export default class App extends Component<object, IValueState> {
               Click to Throw Error into console
             </button>
           </header>
-          {this.state.showResults && <SearchResults filmData={filmsToShow} />}
+          {this.state.loading ? (
+            <div>Loading...</div>
+          ) : (
+            this.state.showResults && <SearchResults filmData={filmsToShow} />
+          )}
         </main>
       </ErrorBoundary>
     );

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface IFilm {
   title: string;
@@ -29,6 +29,7 @@ export interface IValueState {
   showResults: boolean;
   filmData: IFilmList | null;
   filteredData: IFilmList | null;
+  loading: boolean;
 }
 
 export interface ISearchResultsState {

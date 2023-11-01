@@ -1,8 +1,8 @@
-import { Component } from "react";
+import { Component } from 'react';
 import {
   IErrorBoundaryProps,
   IErrorBoundaryState,
-} from "../../shared/interfaces";
+} from '../../shared/interfaces';
 
 export default class ErrorBoundary extends Component<
   IErrorBoundaryProps,
