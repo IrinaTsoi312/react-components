@@ -38,5 +38,6 @@ module.exports = {
     'react/static-property-placement': 'off',
     'class-methods-use-this': 'off',
     'react/no-array-index-key': 'off',
+    'react/self-closing-comp': 'off',
   },
 };

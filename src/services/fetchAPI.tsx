@@ -1,10 +1,23 @@
-const fetchResult = () => {
-  const term = localStorage.getItem('searchValue');
-  fetch(`https://swapi.dev/api/films/?search=${term}`)
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error(err);
-    });
-};
+import { IAllCharacters } from '../shared/interfaces';
 
-export default fetchResult;
+const url = 'https://rickandmortyapi.com/api/character';
+
+export async function fetchAllCharacters() {
+  let result: IAllCharacters | null = null;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  result = await response.json();
+  return result;
+}
+
+export async function searchCharacter(props: string) {
+  let result = null;
+  const response = await fetch(`${url}/?name=${props}`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  result = await response.json();
+  return result;
+}
