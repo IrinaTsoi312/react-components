@@ -1,6 +1,6 @@
-import { IAllCharacters } from '../shared/interfaces';
+import { IAllCharacters } from "../shared/interfaces";
 
-const url = 'https://rickandmortyapi.com/api/character';
+const url = "https://rickandmortyapi.com/api/character";
 
 export async function fetchAllCharacters() {
   let result: IAllCharacters | null = null;
