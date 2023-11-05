@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface ICharacter {
   id?: number;
   name: string;
@@ -40,4 +42,13 @@ export interface ICardData {
 
 export interface ISearchResultProps {
   data: ICharacter[];
+}
+
+export interface IErrorBoundaryProps {
+  fallback: ReactNode;
+  children: ReactNode;
+}
+
+export interface IErrorBoundaryState {
+  hasError: boolean;
 }

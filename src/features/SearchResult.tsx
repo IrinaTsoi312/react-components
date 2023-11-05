@@ -51,7 +51,9 @@ SearchResult.propTypes = {
       status: PropTypes.string.isRequired,
       species: PropTypes.string.isRequired,
       gender: PropTypes.string.isRequired,
-      origin: PropTypes.string.isRequired,
+      origin: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
     })
   ).isRequired,
 };

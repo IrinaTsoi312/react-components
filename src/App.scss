@@ -1,5 +1,5 @@
-$clr-main: #22f31b;
-$shadow-txt: 2px 2px 5px rgb(255, 255, 255);
+$clr-main: #24c51e;
+$shadow-txt: 2px 2px 20px rgb(255, 255, 255);
 
 * {
   margin: 0;
@@ -9,7 +9,8 @@ $shadow-txt: 2px 2px 5px rgb(255, 255, 255);
 
 body {
   width: 100%;
-  background-image: url('./assets/bg-image.jpg');
+  background-color: #252e3a;
+  background-image: url('./assets/wallpapersden.com_rick-in-rick-and-morty_1920x1080.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -32,8 +33,17 @@ a {
   width: 100%;
 }
 
+// --- State ---
+.loading {
+  padding: 12rem 0;
+  width: 100%;
+  text-align: center;
+  font-size: 3rem;
+}
+
 // --- NOTFOUND ---
 .not-found {
+  padding: 12rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,11 +63,30 @@ a {
 
 // --- HEADER ---
 .header {
+  position: relative;
   padding: 1rem 0.5rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   width: 100%;
   background-color: black;
+  box-shadow: $shadow-txt;
+}
+
+.btn-error {
+  padding: 0.5em 1em;
+  position: absolute;
+  top: 25px;
+  right: 15px;
+  border: solid 3px rgb(70, 0, 0);
+  border-radius: 15px;
+  background-color: #910037;
+  color: #000000;
+  cursor: pointer;
+
+  &:active {
+    background-color: #ca0033;
+    border: solid 3px rgb(161, 9, 9);
+  }
 }
 
 .logo a {
@@ -69,7 +98,7 @@ a {
 .logo-title {
   padding: 0 0.5em;
   color: $clr-main;
-  font-size: 1.5em;
+  font-size: 2em;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
   @media (max-width: 650px) {
@@ -78,18 +107,22 @@ a {
 }
 
 .wiki {
-  color: yellow;
-  font-size: 0.7em;
+  margin-left: -14px;
+  color: rgb(235, 235, 0);
+  font-size: 0.5em;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .search-panel {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
   padding: 1rem;
 }
 
 #searchField {
   padding: 0 0.5rem;
-  max-width: 300px;
+  width: 350px;
   height: 2rem;
   border: none;
   border-radius: 10px 0 0 10px;
@@ -101,6 +134,8 @@ a {
   border: none;
   border-radius: 0 10px 10px 0;
   background-color: $clr-main;
+  color: #fff;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -119,16 +154,16 @@ a {
   align-items: center;
   width: 250px;
   background-color: rgb(14, 26, 36);
-  border: 3px dashed $clr-main;
+  border: 5px dashed $clr-main;
   border-radius: 15px;
 }
 
 .searchContent {
-  padding: 2rem;
+  padding: 5rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2rem;
   width: 100%;
   max-width: 1500px;
 }

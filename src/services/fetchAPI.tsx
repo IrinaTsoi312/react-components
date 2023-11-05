@@ -12,9 +12,9 @@ export async function fetchAllCharacters() {
   return result;
 }
 
-export async function searchCharacter(props: string) {
+export async function searchCharacter(searchTerm: string) {
   let result = null;
-  const response = await fetch(`${url}/?name=${props}`);
+  const response = await fetch(`${url}/?name=${searchTerm}`);
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
