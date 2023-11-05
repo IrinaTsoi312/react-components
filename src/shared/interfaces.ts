@@ -1,11 +1,13 @@
+import { ReactNode } from "react";
+
 export interface ICharacter {
-  id?: number;
+  id: number;
   name: string;
   status: string;
   species: string;
   type?: string;
   gender: string;
-  origin: {
+  origin?: {
     name: string;
     url: string;
   };
@@ -40,4 +42,24 @@ export interface ICardData {
 
 export interface ISearchResultProps {
   data: ICharacter[];
+}
+
+export interface IErrorBoundaryProps {
+  fallback: ReactNode;
+  children: ReactNode;
+}
+
+export interface IErrorBoundaryState {
+  hasError: boolean;
+}
+
+export interface IDataProviderProps {
+  children: ReactNode;
+}
+
+export interface IPaginationProps {
+  fetchChars: (currentPage: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+  pages: number;
 }

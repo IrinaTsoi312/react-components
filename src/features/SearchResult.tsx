@@ -1,57 +1,128 @@
-import PropTypes from "prop-types";
-import { ICharacter, ISearchResultProps } from "../shared/interfaces";
+import { useState, useEffect } from "react";
+import { Outlet, Link, useSearchParams } from "react-router-dom";
+import Card from "./Card";
+import Pagination from "./Pagination";
+import { fetchAllCharacters, searchCharacter } from "../services/fetchAPI";
+import { ICharacter } from "../shared/interfaces";
 
-export default function SearchResult({ data }: ISearchResultProps) {
+export default function SearchResult() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [data, setData] = useState<ICharacter[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+  const [chars, setChars] = useState(0);
+  const [pages, setPages] = useState(42);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const myParam = searchParams.get("page");
+  console.log(myParam);
+
+  useEffect(() => {
+    localStorage.setItem("chars", `${chars}`);
+  }, [chars, pages]);
+
+  const fetchChars = async (currentPage: number) => {
+    try {
+      const res = await fetchAllCharacters(currentPage);
+      if (res !== null && res.results) {
+        setChars(res.info.count);
+        setData(res.results);
+        setLoading(false);
+        setPages(res.info.pages);
+        setSearchParams({ page: `${currentPage}` });
+      } else {
+        throw new Error("Invalid response from fetch request");
+      }
+    } catch (err: unknown) {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchChars(currentPage);
+  }, [currentPage]);
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  const handlerOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    localStorage.setItem("searchTerm", value);
+  };
+
+  const searchByTerm = async (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    event.preventDefault();
+    const term: string | null = localStorage.getItem("searchTerm");
+    if (!term) {
+      fetchChars(currentPage);
+      setNotFound(true);
+    } else {
+      const response = await searchCharacter(term);
+      setData(response.results);
+      setLoading(false);
+    }
+  };
+
+  if (notFound) {
+    return <div className="err-message">No Result was found, try again...</div>;
+  }
+
   return (
     <main className="main">
-      <div className="searchContent">
-        {data.map((item: ICharacter) => {
-          return (
-            <div className="char" key={item.id}>
-              <div
-                className="char-img"
-                style={{ backgroundImage: `url(${item.image})` }}
-              ></div>
-              <div className="char-data">
-                <p className="char-info">
-                  <span className="title">Name: </span>
-                  {item.name}
-                </p>
-                <p className="char-info">
-                  <span className="title">Status: </span>
-                  {item.status}
-                </p>
-                <p className="char-info">
-                  <span className="title">Species: </span>
-                  {item.species}
-                </p>
-                <p className="char-info">
-                  <span className="title">Gender: </span>
-                  {item.gender}
-                </p>
-                <p className="char-info">
-                  <span className="title">Origin: </span>
-                  {item.origin.name}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+      <div className="search-panel">
+        <form className="search-form">
+          <input
+            type="text"
+            name="search"
+            id="searchField"
+            placeholder="Search..."
+            onChange={handlerOnChange}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                searchByTerm(event);
+              }
+            }}
+            defaultValue=""
+          />
+          <button id="btnSearch" type="button" onClick={searchByTerm}>
+            Search
+          </button>
+        </form>
+      </div>
+      <div className="search-result">
+        <div className="content">
+          <div className="searchContent">
+            {data?.map((item: ICharacter) => {
+              return (
+                <div className="card-item" key={item.id}>
+                  <Link to={`details/${item.id?.toString()}`}>
+                    <Card
+                      id={item.id}
+                      image={item.image}
+                      name={item.name}
+                      status={item.status}
+                      species={item.species}
+                      gender={item.gender}
+                    />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+          <Pagination
+            fetchChars={fetchChars}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            pages={pages}
+          />
+        </div>
+        <Outlet />
       </div>
     </main>
   );
 }
-
-SearchResult.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired,
-      species: PropTypes.string.isRequired,
-      gender: PropTypes.string.isRequired,
-      origin: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
