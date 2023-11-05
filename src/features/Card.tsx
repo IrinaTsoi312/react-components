@@ -1,13 +1,12 @@
 import { ICharacter } from "../shared/interfaces";
 
-export default function CardShort(props: ICharacter) {
-  const customStyles = {
-    backgroundImage: `url(${props.image})`,
-  };
-
+export default function Card(props: ICharacter) {
   return (
-    <div className="char">
-      <div className="char-img" style={customStyles}></div>
+    <div className="char" key={props.id}>
+      <div
+        className="char-img"
+        style={{ backgroundImage: `url(${props.image})` }}
+      ></div>
       <div className="char-data">
         <p className="char-info">
           <span className="title">Name: </span>
@@ -24,10 +23,6 @@ export default function CardShort(props: ICharacter) {
         <p className="char-info">
           <span className="title">Gender: </span>
           {props.gender}
-        </p>
-        <p className="char-info">
-          <span className="title">Origin: </span>
-          {props.origin.name}
         </p>
       </div>
     </div>

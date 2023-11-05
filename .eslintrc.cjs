@@ -41,5 +41,6 @@ module.exports = {
     "react/self-closing-comp": "off",
     "react/state-in-constructor": "off",
     "react/no-unused-class-component-methods": "off",
+    "@typescript-eslint/no-shadow": "off",
   },
 };

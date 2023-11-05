@@ -7,7 +7,7 @@ export interface ICharacter {
   species: string;
   type?: string;
   gender: string;
-  origin: {
+  origin?: {
     name: string;
     url: string;
   };
@@ -51,4 +51,15 @@ export interface IErrorBoundaryProps {
 
 export interface IErrorBoundaryState {
   hasError: boolean;
+}
+
+export interface IDataProviderProps {
+  children: ReactNode;
+}
+
+export interface IPaginationProps {
+  fetchChars: (currentPage: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+  pages: number;
 }

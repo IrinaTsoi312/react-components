@@ -1,26 +1,24 @@
 import { useRef } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
-import RootLayout from "./pages/RootLayout";
-import NotFound from "./pages/NotFound";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import ErrorBoundary from "./features/ErrorBoundary";
+import NotFound from "./pages/NotFound";
+import RootLayout from "./pages/RootLayout";
 import "./App.scss";
 
-export function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<RootLayout />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
-}
+const router = createHashRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: <NotFound />,
+    children: [],
+  },
+]);
 
-export default function WrapperApp() {
+export default function App() {
   const errorBoundaryRef = useRef<ErrorBoundary>(null);
   return (
     <ErrorBoundary fallback="There is an Error!" ref={errorBoundaryRef}>
-      <HashRouter>
-        <App />
-      </HashRouter>
+      <RouterProvider router={router} />
     </ErrorBoundary>
   );
 }
