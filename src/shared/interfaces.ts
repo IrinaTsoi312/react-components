@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface ICharacter {
-  id?: number;
+  id: number;
   name: string;
   status: string;
   species: string;

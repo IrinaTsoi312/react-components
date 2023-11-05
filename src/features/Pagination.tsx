@@ -46,16 +46,26 @@ export default function Pagination({
   }
   return (
     <div className="pagination">
-      <div className="page-item cpage">
-        <input type="text" className="select-limit" defaultValue="20" />
+      <div className="cpage">
+        <label htmlFor="choosePage" className="label">
+          Cards per page
+          <input
+            id="choosePage"
+            type="text"
+            className="select-limit"
+            defaultValue="20"
+          />
+        </label>
       </div>
-      <button className="page-item control" type="button" onClick={getPrev}>
-        Prev
-      </button>
-      {btns}
-      <button className="page-item control" type="button" onClick={getNext}>
-        Next
-      </button>
+      <div className="pag-btns">{btns}</div>
+      <div className="control-btns">
+        <button className="control" type="button" onClick={getPrev}>
+          Prev
+        </button>
+        <button className="control" type="button" onClick={getNext}>
+          Next
+        </button>
+      </div>
     </div>
   );
 }

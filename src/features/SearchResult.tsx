@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link, useSearchParams } from "react-router-dom";
 import Card from "./Card";
 import Pagination from "./Pagination";
 import { fetchAllCharacters, searchCharacter } from "../services/fetchAPI";
 import { ICharacter } from "../shared/interfaces";
 
 export default function SearchResult() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState<ICharacter[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [chars, setChars] = useState(0);
   const [pages, setPages] = useState(42);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const myParam = searchParams.get("page");
+  console.log(myParam);
 
   useEffect(() => {
     localStorage.setItem("chars", `${chars}`);
@@ -25,6 +29,7 @@ export default function SearchResult() {
         setData(res.results);
         setLoading(false);
         setPages(res.info.pages);
+        setSearchParams({ page: `${currentPage}` });
       } else {
         throw new Error("Invalid response from fetch request");
       }
@@ -38,7 +43,7 @@ export default function SearchResult() {
   }, [currentPage]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   const handlerOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,14 +99,18 @@ export default function SearchResult() {
           <div className="searchContent">
             {data?.map((item: ICharacter) => {
               return (
-                <Card
-                  key={item.id}
-                  image={item.image}
-                  name={item.name}
-                  status={item.status}
-                  species={item.species}
-                  gender={item.gender}
-                />
+                <div className="card-item" key={item.id}>
+                  <Link to={`details/${item.id?.toString()}`}>
+                    <Card
+                      id={item.id}
+                      image={item.image}
+                      name={item.name}
+                      status={item.status}
+                      species={item.species}
+                      gender={item.gender}
+                    />
+                  </Link>
+                </div>
               );
             })}
           </div>

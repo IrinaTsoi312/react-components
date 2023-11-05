@@ -21,6 +21,11 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
 }
 
 .m-heading {
@@ -108,7 +113,7 @@ a {
 
 .wiki {
   margin-left: -14px;
-  color: rgb(235, 235, 0);
+  color: #ebeb00;
   font-size: 0.5em;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
@@ -122,7 +127,7 @@ a {
 
 #searchField {
   padding: 0 0.5rem;
-  width: 350px;
+  width: 300px;
   height: 2rem;
   border: none;
   border-radius: 10px 0 0 10px;
@@ -188,32 +193,63 @@ a {
 .char-info {
 
   .title {
-    color: yellow;
+    color: #ebeb00;
     font-weight: 600;
   }
 }
 
 // --- PAGINATION ---
 .control {
-  width: 80px;
+  padding: 5px;
+  width: 100px;
+  color: #fff;
+  font-weight: 600;
+  border: 2px solid $clr-main;
+  border-radius: 5px;
+  background-color: #243455;
+}
+
+.control-btns {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
 }
 
 .pag-btns {
   display: flex;
   justify-content: center;
-  gap: 5px;
   flex-wrap: wrap;
   width: 100%;
+  max-width: 1500px;
 }
 
 .page-item {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  border: 2px solid $clr-main;
+  border-radius: 5px;
+  background-color: #243455;
+}
+
+.cpage {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.label {
+  padding: 0 0.5em;
 }
 
 .select-limit {
+  margin-left: 0.5em;
+  padding: 5px;
   width: 30px;
+  height: 30px;
   text-align: center;
-  border: 3px solid $clr-main;
-  border-radius: 10px;
+  color: #fff;
+  border: 2px solid yellowgreen;
+  border-radius: 5px;
+  background-color: #243455;
 }

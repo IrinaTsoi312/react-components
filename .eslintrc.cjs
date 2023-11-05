@@ -42,5 +42,7 @@ module.exports = {
     "react/state-in-constructor": "off",
     "react/no-unused-class-component-methods": "off",
     "@typescript-eslint/no-shadow": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-console": "off",
   },
 };
